@@ -1,0 +1,1 @@
+java -jar JsTestDriver.jar --port 4224 --browser "C:\Program Files (x86)\Mozilla Firefox\firefox.exe","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","C:\Program Files (x86)\Internet Explorer\iexplore.exe" --tests all --testOutput src/main/resources/reports --captureConsole

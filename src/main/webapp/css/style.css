@@ -1,0 +1,27 @@
+.noBullet
+{
+	list-style-type: none;
+}
+
+.header
+{
+	font-weight: bold;
+	text-decoration: underline;
+	margin-bottom: 24px;
+}
+
+li
+{
+	margin-left: -1.8em;
+	float: left;
+}
+
+.editName
+{
+	padding: 1px 6px;
+}
+
+.time
+{
+	margin-right: 6px;
+}

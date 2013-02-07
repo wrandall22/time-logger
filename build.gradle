@@ -1,0 +1,27 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'jetty'
+apply plugin: 'war'
+
+repositories {
+	mavenCentral()
+	
+	maven {
+		url "https://repository.jboss.org/nexus/content/repositories/thirdparty-releases"
+	}
+}
+
+dependencies {
+	compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.4.Final'
+	compile 'org.scannotation:scannotation:1.0.3'
+	compile 'javax.servlet:servlet-api:2.5'
+	compile files('src/main/resources/lib/servlet-2.5.jar')
+}
+
+task testJS(type:Exec) {
+	executable = "run.bat"
+}
+
+httpPort = 8080
+stopPort = 9451
+stopKey = 'foo'

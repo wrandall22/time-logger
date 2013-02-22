@@ -102,7 +102,7 @@ TestCase('PageLogicTest',
 		var startTime = "9:00AM";
 		var endTime = "9:00AM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 0 hours logged.", 0, this.testBucketArray[0].hours);
 		
 		
@@ -110,7 +110,7 @@ TestCase('PageLogicTest',
 		startTime = "9:00AM";
 		endTime = "9:07AM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 0 hours logged.", 0, this.testBucketArray[0].hours);
 		
 		
@@ -118,7 +118,7 @@ TestCase('PageLogicTest',
 		startTime = "9:00AM";
 		endTime = "9:08AM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 0.25 hours logged.", 0.25, this.testBucketArray[0].hours);
 		
 		
@@ -126,7 +126,7 @@ TestCase('PageLogicTest',
 		startTime = "9:00AM";
 		endTime = "9:15AM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 0.25 hours logged.", 0.25, this.testBucketArray[0].hours);
 		
 		
@@ -134,7 +134,7 @@ TestCase('PageLogicTest',
 		startTime = "9:00AM";
 		endTime = "9:21AM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 0.25 hours logged.", 0.25, this.testBucketArray[0].hours);
 		
 		
@@ -142,7 +142,7 @@ TestCase('PageLogicTest',
 		startTime = "9:00AM";
 		endTime = "9:25AM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 0.5 hours logged.", 0.5, this.testBucketArray[0].hours);
 		
 		
@@ -150,7 +150,7 @@ TestCase('PageLogicTest',
 		startTime = "9:00AM";
 		endTime = "9:30AM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 0.5 hours logged.", 0.5, this.testBucketArray[0].hours);
 		
 		
@@ -158,7 +158,7 @@ TestCase('PageLogicTest',
 		startTime = "9:00AM";
 		endTime = "9:41AM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 0.75 hours logged.", 0.75, this.testBucketArray[0].hours);
 		
 		
@@ -166,7 +166,7 @@ TestCase('PageLogicTest',
 		startTime = "9:00AM";
 		endTime = "9:59AM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 1 hour logged.", 1, this.testBucketArray[0].hours);
 		
 		
@@ -174,7 +174,7 @@ TestCase('PageLogicTest',
 		startTime = "9:00AM";
 		endTime = "9:07PM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 12 hours logged.", 12, this.testBucketArray[0].hours);
 		
 		
@@ -182,7 +182,7 @@ TestCase('PageLogicTest',
 		startTime = "12:00AM";
 		endTime = "12:07PM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 12 hours logged.", 12, this.testBucketArray[0].hours);
 		
 		
@@ -190,7 +190,33 @@ TestCase('PageLogicTest',
 		startTime = "10:30PM";
 		endTime = "11:20PM";
 		
-		calculateTime(startTime, endTime, this.testBucketArray[0]);
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
 		assertEquals("This bucket should have 0.75 hours logged.", 0.75, this.testBucketArray[0].hours);
+		
+		this.testBucketArray[0].hours = 0;
+		startTime = "10:30AM";
+		endTime = "1:30PM";
+		
+		calculateTime(startTime, endTime, this.testBucketArray[0], 0);
+		assertEquals("This bucket should have 3 hours logged.", 3, this.testBucketArray[0].hours);
+	},
+	
+	testGetTime: function() 
+	{
+		var time = new Date(2013, 2, 22, 1, 0, 0, 0);
+		var formattedTime = getTime(time);
+		assertEquals("Should be 1:00AM", "1:00AM", formattedTime);
+		
+		time = new Date(2013, 2, 22, 11, 0, 0, 0);
+		formattedTime = getTime(time);
+		assertEquals("Should be 11:00AM", "11:00AM", formattedTime);
+		
+		time = new Date(2013, 2, 22, 12, 0, 0, 0);
+		formattedTime = getTime(time);
+		assertEquals("Should be 12:00PM", "12:00PM", formattedTime);
+		
+		time = new Date(2013, 2, 22, 0, 0, 0, 0);
+		formattedTime = getTime(time);
+		assertEquals("Should be 12:00AM", "12:00AM", formattedTime);
 	}
 });

@@ -82,65 +82,72 @@ function addBucketUI()
 	$('#timeDiv').show();
 }
 
-function addHour(bucket)
+function addHour(bucket, totalTime)
 {
-	addHours(bucket, 1);
+	addHours(bucket, 1, totalTime);
 }
 
-function addHours(bucket, hours)
+function addHours(bucket, hours, totalTime)
 {
 	bucket.hours = bucket.hours + hours;
 	$('#hoursSpan' + bucket.id).text(bucket.hours);
+	updateTotal(hours, "pos", totalTime);
 }
 
-function subtractHour(bucket)
+function subtractHour(bucket, totalTime)
 {
 	if(bucket.hours >= 1)
 	{
 		bucket.hours = bucket.hours - 1;
 		$('#hoursSpan' + bucket.id).text(bucket.hours);
+		updateTotal(1, "neg", totalTime);
 	}
 }
 
-function addHalfHour(bucket)
+function addHalfHour(bucket, totalTime)
 {
 	bucket.hours = bucket.hours + 0.5;
 	$('#hoursSpan' + bucket.id).text(bucket.hours);
+	updateTotal(0.5, "pos", totalTime);
 }
 
-function subtractHalfHour(bucket)
+function subtractHalfHour(bucket, totalTime)
 {
 	if(bucket.hours >= 0.5)
 	{
 		bucket.hours = bucket.hours - 0.5;
 		$('#hoursSpan' + bucket.id).text(bucket.hours);
+		updateTotal(0.5, "neg", totalTime);
 	}
 }
 
-function addFifteen(bucket)
+function addFifteen(bucket, totalTime)
 {
 	bucket.hours = bucket.hours + 0.25;
 	$('#hoursSpan' + bucket.id).text(bucket.hours);
+	updateTotal(0.25, "pos", totalTime);
 }
 
-function subtractFifteen(bucket)
+function subtractFifteen(bucket, totalTime)
 {
 	if(bucket.hours >= 0.25)
 	{
 		bucket.hours = bucket.hours - 0.25;
 		$('#hoursSpan' + bucket.id).text(bucket.hours);
+		updateTotal(0.25, "neg", totalTime);
 	}
 }
 
-function addMinutes(bucket, minutes)
+function addMinutes(bucket, minutes, totalTime)
 {
 	bucket.hours = bucket.hours + (minutes/60);
 	$('#hoursSpan' + bucket.id).text(bucket.hours);
+	updateTotal(minutes, "pos", totalTime);
 }
 
 function startTime(bucket)
 {
-	var now = getTime();
+	var now = getTime(new Date());
 	var bucketId = bucket.id;
 	
 	$('#timeSpan' + bucketId).html(
@@ -149,9 +156,9 @@ function startTime(bucket)
 	);
 }
 
-function endTime(bucket)
+function endTime(bucket, totalTime)
 {
-	var now = getTime();
+	var now = getTime(new Date());
 	var bucketId = bucket.id;
 	var startTime = $('#startTimeSpan' + bucketId).text();
 	
@@ -161,7 +168,7 @@ function endTime(bucket)
 			'<input type="button" class="btn btn-small startTimeBtn" id="startTimeBtn' + bucketId + '" value="Start" />'
 	);
 	
-	calculateTime(startTime, now, bucket);
+	calculateTime(startTime, now, bucket, totalTime);
 }
 
 function allowNameEdit(bucket)
@@ -237,11 +244,10 @@ function isValidName(name, bucket, bucketArray)
 	return true;
 }
 
-function getTime()
+function getTime(time)
 {
-	var now = new Date();
-	var minutes = now.getMinutes();
-	var hours = now.getHours();
+	var minutes = time.getMinutes();
+	var hours = time.getHours();
 	var ampm;
 	
 	if(minutes < 10)
@@ -253,6 +259,15 @@ function getTime()
 		ampm = "PM";
 		hours -= 12;
 	}
+	else if(hours == 12)
+	{
+		ampm = "PM";
+	}
+	else if(hours == 0)
+	{
+		ampm = "AM";
+		hours += 12;
+	}
 	else
 	{
 		ampm = "AM";
@@ -261,13 +276,13 @@ function getTime()
 	return hours + ':' + minutes + ampm;
 }
 
-function calculateTime(startTime, endTime, bucket)
+function calculateTime(startTime, endTime, bucket, totalTime)
 {
 	var endTimeAmPm = endTime.substring(endTime.indexOf("M") - 1);
 	var startTimeAmPm = startTime.substring(startTime.indexOf("M") - 1);
 	
 	var endTimeHours = parseInt(endTime.substring(0, endTime.indexOf(':')));
-	var startTimeHours = parseInt(startTime.substring(0, endTime.indexOf(':')));
+	var startTimeHours = parseInt(startTime.substring(0, startTime.indexOf(':')));
 	
 	if(endTimeAmPm == "PM")
 	{
@@ -317,7 +332,7 @@ function calculateTime(startTime, endTime, bucket)
 	
 	if(hourDifference > 0)
 	{
-		addHours(bucket, hourDifference);
+		addHours(bucket, hourDifference, totalTime);
 	}
 	if(minuteDifference > 0)
 	{
@@ -325,7 +340,7 @@ function calculateTime(startTime, endTime, bucket)
 		
 		if(minutesLeftover === 0)
 		{
-			addMinutes(bucket, minuteDifference);
+			addMinutes(bucket, minuteDifference, totalTime);
 		}
 		else
 		{
@@ -340,17 +355,40 @@ function calculateTime(startTime, endTime, bucket)
 					fifteenMinuteBlocks++;
 				}
 				
-				addMinutes(bucket, (15*fifteenMinuteBlocks));
+				addMinutes(bucket, (15*fifteenMinuteBlocks), totalTime);
 			}
 			else
 			{
 				if(minutesLeftover >= 8)  //round up if 8-14 minutes
 				{
-					addMinutes(bucket, 15);
+					addMinutes(bucket, 15, totalTime);
 				}
 			}
 		}
 	}
+}
+
+function updateTotal(hours, sign, total)
+{
+	$('#totalTimeDiv').empty();
+	if(sign == "pos")
+	{
+		total += hours;
+	}
+	else
+	{
+		total -= hours;
+	}
+	if(total === 1)
+	{
+		$('#totalTimeDiv').append('<strong>Total Time: </strong> <span id="totalTime">' + total + '</span> hour');
+	}
+	else
+	{
+		$('#totalTimeDiv').append('<strong>Total Time: </strong> <span id="totalTime">' + total + '</span> hours');
+	}
+	
+	$('#totalTimeDiv').show();
 }
 
 
@@ -370,7 +408,8 @@ $('#bucketListDiv').on("click", ".addHour", function(event)
 	var target = $(event.target);
 	var fullId = target.attr("id");
 	var numId = fullId.substring(fullId.lastIndexOf("r") + 1);
-	addHour(bucketArray[numId]);
+	var totalTime = parseFloat($('#totalTime').text());
+	addHour(bucketArray[numId], totalTime);
 });
 
 $('#bucketListDiv').on("click", ".subtractHour", function(event)
@@ -378,7 +417,8 @@ $('#bucketListDiv').on("click", ".subtractHour", function(event)
 	var target = $(event.target);
 	var fullId = target.attr("id");
 	var numId = fullId.substring(fullId.lastIndexOf("r") + 1);
-	subtractHour(bucketArray[numId]);
+	var totalTime = parseFloat($('#totalTime').text());
+	subtractHour(bucketArray[numId], totalTime);
 });
 
 $('#bucketListDiv').on("click", ".addHalfHour", function(event)
@@ -386,7 +426,8 @@ $('#bucketListDiv').on("click", ".addHalfHour", function(event)
 	var target = $(event.target);
 	var fullId = target.attr("id");
 	var numId = fullId.substring(fullId.lastIndexOf("r") + 1);
-	addHalfHour(bucketArray[numId]);
+	var totalTime = parseFloat($('#totalTime').text());
+	addHalfHour(bucketArray[numId], totalTime);
 });
 
 $('#bucketListDiv').on("click", ".subtractHalfHour", function(event)
@@ -394,7 +435,8 @@ $('#bucketListDiv').on("click", ".subtractHalfHour", function(event)
 	var target = $(event.target);
 	var fullId = target.attr("id");
 	var numId = fullId.substring(fullId.lastIndexOf("r") + 1);
-	subtractHalfHour(bucketArray[numId]);
+	var totalTime = parseFloat($('#totalTime').text());
+	subtractHalfHour(bucketArray[numId], totalTime);
 });
 
 $('#bucketListDiv').on("click", ".addFifteen", function(event)
@@ -402,7 +444,8 @@ $('#bucketListDiv').on("click", ".addFifteen", function(event)
 	var target = $(event.target);
 	var fullId = target.attr("id");
 	var numId = fullId.substring(fullId.lastIndexOf("n") + 1);
-	addFifteen(bucketArray[numId]);
+	var totalTime = parseFloat($('#totalTime').text());
+	addFifteen(bucketArray[numId], totalTime);
 });
 
 $('#bucketListDiv').on("click", ".subtractFifteen", function(event)
@@ -410,7 +453,8 @@ $('#bucketListDiv').on("click", ".subtractFifteen", function(event)
 	var target = $(event.target);
 	var fullId = target.attr("id");
 	var numId = fullId.substring(fullId.lastIndexOf("n") + 1);
-	subtractFifteen(bucketArray[numId]);
+	var totalTime = parseFloat($('#totalTime').text());
+	subtractFifteen(bucketArray[numId], totalTime);
 });
 
 $('#bucketListDiv').on("click", ".startTimeBtn", function(event)
@@ -427,8 +471,9 @@ $('#bucketListDiv').on("click", ".endTimeBtn", function(event)
 	var target = $(event.target);
 	var fullId = target.attr("id");
 	var numId = fullId.substring(fullId.lastIndexOf("n") + 1);
+	var totalTime = parseFloat($('#totalTime').text());
 
-	endTime(bucketArray[numId]);
+	endTime(bucketArray[numId], totalTime);
 });
 
 $('#bucketListDiv').on("click", ".rename", function(event) 

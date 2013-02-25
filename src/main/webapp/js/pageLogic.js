@@ -66,7 +66,9 @@ function addBucketUI()
 					'<span class="span2" id="timeSpan' + i + '">' + 
 						'<span id="startTime' + i + '">' +
 							'<span id="startTimeSpan' + i + '" class="time">Not Started</span>' +
-							'<input type="button" class="btn btn-small startTimeBtn" id="startTimeBtn' + i + '" value="Start" />' +
+							'<span class="btn btn-small startTimeBtn" id="startTimeBtn' + i + '">' +
+								'<i class="icon-play" id="iconStartTimeBtn' + i + '"></i>' +
+							'</span>' +
 						'</span>' +
 					'</span>' +
 					'<span class="span2">' + 
@@ -155,7 +157,9 @@ function startTime(bucket)
 	
 	$('#timeSpan' + bucketId).html(
 			'<span id="startTimeSpan' + bucketId + '" class="time">' + now + '</span>' +
-			'<input type="button" class="btn btn-small endTimeBtn" id="endTimeBtn' + bucketId + '" value="End" />'
+			'<span class="btn btn-small endTimeBtn" id="endTimeBtn' + bucketId + '">' +
+				'<i class="icon-stop" id="iconStopTimeBtn' + bucketId + '"></i>' + 
+			'</span>'
 	);
 }
 
@@ -168,7 +172,9 @@ function endTime(bucket, totalTime)
 	$('#timeSpan' + bucketId).html(
 			'<span id="startTimeSpan' + bucketId + '" class="time">' + startTime + '</span>' +
 			'<span id="endTimeSpan' + bucketId + '" class="time">' + now + '</span>' +
-			'<input type="button" class="btn btn-small startTimeBtn" id="startTimeBtn' + bucketId + '" value="Start" />'
+			'<span class="btn btn-small startTimeBtn" id="startTimeBtn' + bucketId + '">' + 
+				'<i class="icon-play" id="iconStartTimeBtn' + bucketId + '"></i>' +
+			'</span>'
 	);
 	
 	calculateTime(startTime, now, bucket, totalTime);

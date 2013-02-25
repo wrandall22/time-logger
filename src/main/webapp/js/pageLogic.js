@@ -76,6 +76,9 @@ function addBucketUI()
 						'<span class="btn btn-small delete" id="delete' + i + '">' +
 							'<i class="icon-trash" id="iconDelete' + i + '"></i>' +
 						'</span>' +
+						'<span id="clearHoursSpan' + i + '">' + 
+							'<input type="button" class="btn btn-small clearHours" id="clearHours' + i + '" value="Clear" />' + 
+						'</span>' +
 					'</span>' +
 				'</li>');
 	}
@@ -204,6 +207,14 @@ function deleteBucket(bucketArray, bucket)
 {
 	bucketArray.splice(bucketArray.indexOf[bucket], 1);
 	addBucketUI();
+}
+
+function clearHours(bucket, totalTime)
+{
+	var currentHours = bucket.hours;
+	bucket.hours = 0;
+	$('#hoursSpan' + bucket.id).text(bucket.hours);
+	updateTotal(currentHours, "neg", totalTime);
 }
 
 
@@ -502,4 +513,14 @@ $('#bucketListDiv').on("click", ".delete", function(event)
 	var numId = fullId.substring(fullId.lastIndexOf("e") + 1);
 	
 	deleteBucket(bucketArray, bucketArray[numId]);
+});
+
+$('#bucketListDiv').on("click", ".clearHours", function(event)
+{
+	var target = $(event.target);
+	var fullId = target.attr("id");
+	var numId = fullId.substring(fullId.lastIndexOf("s") + 1);
+	var totalTime = parseFloat($('#totalTime').text());
+	
+	clearHours(bucketArray[numId], totalTime);
 });

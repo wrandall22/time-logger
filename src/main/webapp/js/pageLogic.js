@@ -145,9 +145,10 @@ function subtractFifteen(bucket, totalTime)
 
 function addMinutes(bucket, minutes, totalTime)
 {
-	bucket.hours = bucket.hours + (minutes/60);
+	var hours = minutes/60;
+	bucket.hours = bucket.hours + hours;
 	$('#hoursSpan' + bucket.id).text(bucket.hours);
-	updateTotal(minutes, "pos", totalTime);
+	updateTotal(hours, "pos", totalTime);
 }
 
 function startTime(bucket)

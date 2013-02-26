@@ -210,10 +210,12 @@ function rename(bucket, name, bucketArray)
 	}
 }
 
-function deleteBucket(bucketArray, bucket)
+function deleteBucket(bucketArray, bucket, totalTime)
 {
+	var currentHours = bucket.hours;
 	bucketArray.splice(bucketArray.indexOf[bucket], 1);
 	addBucketUI();
+	updateTotal(currentHours, "neg", totalTime);
 }
 
 function clearHours(bucket, totalTime)
@@ -518,8 +520,9 @@ $('#bucketListDiv').on("click", ".delete", function(event)
 	var target = $(event.target);
 	var fullId = target.attr("id");
 	var numId = fullId.substring(fullId.lastIndexOf("e") + 1);
+	var totalTime = parseFloat($('#totalTime').text());
 	
-	deleteBucket(bucketArray, bucketArray[numId]);
+	deleteBucket(bucketArray, bucketArray[numId], totalTime);
 });
 
 $('#bucketListDiv').on("click", ".clearHours", function(event)

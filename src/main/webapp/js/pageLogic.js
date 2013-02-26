@@ -26,20 +26,20 @@ function addBucketUI()
 {
 	$('#bucketListDiv').empty();
 	$('#bucketListDiv').append('<div class="span12">' +
-			'<span class="header span2">Bucket Name</span>' + 
-			'<span class="header span2">Hours Accrued</span>' +
-			'<span class="header span2">Hour</span>' +
-			'<span class="header span2">Half Hour</span>' +
-			'<span class="header span2">15 Minutes</span></div>');
+			'<span class="header my-span2">Bucket Name</span>' + 
+			'<span class="header my-span2">Hours Accrued</span>' +
+			'<span class="header my-span2">Hour</span>' +
+			'<span class="header my-span2">Half Hour</span>' +
+			'<span class="header my-span2">15 Minutes</span></div>');
 	$('#bucketListDiv').append('<div class="span12"><ul class="noBullet" id="bucketList"></ul></div>');
 	
 	for(var i = 0; i < bucketArray.length; i++)
 	{
 		$('#bucketList').append(
 				'<li>' + 
-					'<span id="nameSpan' + i + '" class="span2 control-group">' + bucketArray[i].name + '</span>' +
-					'<span id="hoursSpan' + i + '" class="span2">' + bucketArray[i].hours + '</span>' + 
-					'<span class="span2">' + 
+					'<span id="nameSpan' + i + '" class="my-span2 control-group">' + bucketArray[i].name + '</span>' +
+					'<span id="hoursSpan' + i + '" class="my-span2">' + bucketArray[i].hours + '</span>' + 
+					'<span class="my-span2">' + 
 						'<span class="btn btn-small addHour" id="addHour' + i + '">' + 
 							'<i class="icon-plus" id="iconAddHour' + i + '"></i>' + 
 						'</span>' + 
@@ -47,7 +47,7 @@ function addBucketUI()
 							'<i class="icon-minus" id="iconSubtractHour' + i + '"></i>' + 
 						'</span>' +
 					'</span>' +
-					'<span class="span2">' + 
+					'<span class="my-span2">' + 
 						'<span class="btn btn-small addHalfHour" id="addHalfHour' + i + '">' + 
 							'<i class="icon-plus" id="iconAddHalfHour' + i + '"></i>' + 
 						'</span>' + 
@@ -55,7 +55,7 @@ function addBucketUI()
 							'<i class="icon-minus" id="iconSubtractHalfHour' + i + '"></i>' + 
 						'</span>' +
 					'</span>' +
-					'<span class="span2">' + 
+					'<span class="my-span2">' + 
 						'<span class="btn btn-small addFifteen" id="addFifteen' + i + '">' + 
 							'<i class="icon-plus" id="iconAddFifteen' + i + '"></i>' + 
 						'</span>' + 
@@ -63,7 +63,7 @@ function addBucketUI()
 							'<i class="icon-minus" id="iconSubtractFifteen' + i + '"></i>' + 
 						'</span>' +
 					'</span>' +
-					'<span class="span2" id="timeSpan' + i + '">' + 
+					'<span class="my-span3" id="timeSpan' + i + '">' + 
 						'<span id="startTime' + i + '">' +
 							'<span id="startTimeSpan' + i + '" class="time">Not Started</span>' +
 							'<span class="btn btn-small startTimeBtn" id="startTimeBtn' + i + '">' +
@@ -71,13 +71,13 @@ function addBucketUI()
 							'</span>' +
 						'</span>' +
 					'</span>' +
-					'<span class="span2">' + 
+					'<span class="my-span3">' + 
 						'<span id="renameSpan' + i + '">' + 
 							'<input type="button" class="btn btn-small rename" id="rename' + i + '" value="Rename" />' + 
-						'</span>' +
+						'</span>&nbsp;' +
 						'<span class="btn btn-small delete" id="delete' + i + '">' +
 							'<i class="icon-trash" id="iconDelete' + i + '"></i>' +
-						'</span>' +
+						'</span>&nbsp;' +
 						'<span id="clearHoursSpan' + i + '">' + 
 							'<input type="button" class="btn btn-small clearHours" id="clearHours' + i + '" value="Clear" />' + 
 						'</span>' +

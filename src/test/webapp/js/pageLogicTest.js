@@ -218,5 +218,10 @@ TestCase('PageLogicTest',
 		time = new Date(2013, 2, 22, 0, 0, 0, 0);
 		formattedTime = getTime(time);
 		assertEquals("Should be 12:00AM", "12:00AM", formattedTime);
+	}, 
+	
+	testTotalTime: function()
+	{
+		assertTrue(true);
 	}
 });

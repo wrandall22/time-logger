@@ -353,6 +353,7 @@ function calculateTime(startTime, endTime, bucket, totalTime)
 	if(hourDifference > 0)
 	{
 		addHours(bucket, hourDifference, totalTime);
+		totalTime = parseFloat($('#totalTime').text());  //addHours changes the totalTime, so we need to get the latest value
 	}
 	if(minuteDifference > 0)
 	{
@@ -388,27 +389,29 @@ function calculateTime(startTime, endTime, bucket, totalTime)
 	}
 }
 
-function updateTotal(hours, sign, total)
+function updateTotal(hours, sign, totalTime)
 {
 	$('#totalTimeDiv').empty();
 	if(sign == "pos")
 	{
-		total += hours;
+		totalTime += hours;
 	}
 	else
 	{
-		total -= hours;
+		totalTime -= hours;
 	}
-	if(total === 1)
+	if(totalTime === 1)
 	{
-		$('#totalTimeDiv').append('<strong>Total Time: </strong> <span id="totalTime">' + total + '</span> hour');
+		$('#totalTimeDiv').append('<strong>Total Time: </strong> <span id="totalTime">' + totalTime + '</span> hour');
 	}
 	else
 	{
-		$('#totalTimeDiv').append('<strong>Total Time: </strong> <span id="totalTime">' + total + '</span> hours');
+		$('#totalTimeDiv').append('<strong>Total Time: </strong> <span id="totalTime">' + totalTime + '</span> hours');
 	}
 	
 	$('#totalTimeDiv').show();
+	
+	return totalTime;  //for testing purposes
 }
 
 

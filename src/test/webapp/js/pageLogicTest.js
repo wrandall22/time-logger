@@ -220,8 +220,40 @@ TestCase('PageLogicTest',
 		assertEquals("Should be 12:00AM", "12:00AM", formattedTime);
 	}, 
 	
-	testTotalTime: function()
+	testUpdateTotal: function()
 	{
-		assertTrue(true);
+		var totalTime = 0;
+		var sign = "pos";
+		var hours = 1;
+		var updatedTime = updateTime(hours, sign, totalTime);
+		assertEquals("Should be 1 hour", 1, updatedTime);
+		
+		
+		totalTime = 0.25
+		sign = "pos";
+		hours = 2.5;
+		updatedTime = updateTime(hours, sign, totalTime);
+		assertEquals("Should be 2.75 hours", 2.75, updatedTime);
+		
+		
+		totalTime = 2.25
+		sign = "pos";
+		hours = 0.75;
+		updatedTime = updateTime(hours, sign, totalTime);
+		assertEquals("Should be 3 hours", 3, updatedTime);
+		
+		
+		totalTime = 0.5
+		sign = "neg";
+		hours = 0.5;
+		updatedTime = updateTime(hours, sign, totalTime);
+		assertEquals("Should be 0 hours", 0, updatedTime);
+		
+		
+		totalTime = 2.25
+		sign = "neg";
+		hours = 0.75;
+		updatedTime = updateTime(hours, sign, totalTime);
+		assertEquals("Should be 1.5 hours", 1.5, updatedTime);
 	}
 });
